@@ -1,48 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#111111" />
-  <title>Magic Art Webtoon</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<title>MAGIC ART</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar">
-    <button id="menuBtn" class="icon-btn" aria-label="메뉴">☰</button>
-    <div class="title-wrap">
-      <div class="series-title">MAGIC ART</div>
-      <div class="episode-title" id="episodeTitle">EP. 01 마법의 세계</div>
-    </div>
-    <button id="themeBtn" class="icon-btn" aria-label="화면 모드">◐</button>
-  </header>
+<header class="reader-head">
+  <button id="menuBtn" aria-label="메뉴">☰</button>
+  <div>
+    <div class="brand">MAGIC ART</div>
+    <div class="ep">EP. 01 마법의 세계</div>
+  </div>
+  <button id="themeBtn" aria-label="화면 모드">◐</button>
+</header>
 
-  <aside id="drawer" class="drawer" aria-hidden="true">
-    <div class="drawer-head">
-      <strong>에피소드</strong>
-      <button id="closeDrawer" class="icon-btn" aria-label="닫기">×</button>
-    </div>
-    <nav id="episodeList" class="episode-list"></nav>
-  </aside>
-  <div id="backdrop" class="backdrop" hidden></div>
+<aside id="drawer">
+  <div class="drawer-title">MAGIC ART</div>
+  <a href="#cover">표지</a>
+  <a href="#story">EP. 01 마법의 세계</a>
+  <a href="#credits">크레딧</a>
+</aside>
+<div id="backdrop"></div>
 
-  <main id="reader" class="reader" aria-live="polite"></main>
+<main id="comic">
+  <section id="cover" class="cover">
+    <div class="cover-art">COVER ART</div>
+    <div class="cover-title">MAGIC ART</div>
+    <div class="cover-sub">마법의 미술 도구함</div>
+    <div class="credit-mini">글 이헌 · 그림 루이(AI)</div>
+  </section>
 
-  <button id="topBtn" class="top-btn" aria-label="맨 위로">↑</button>
+  <section id="story" class="story"></section>
 
-  <template id="sceneTemplate">
-    <section class="scene">
-      <div class="scene-visual">
-        <div class="image-placeholder">
-          <span class="scene-no"></span>
-          <span class="placeholder-label"></span>
-        </div>
-      </div>
-      <div class="scene-text"></div>
-    </section>
-  </template>
+  <section id="credits" class="credits">
+    <div class="credits-title">CREDITS</div>
+    <p><b>글</b> 이헌</p>
+    <p><b>그림</b> 루이(AI)</p>
+    <p><b>작품</b> 마지윤 · 박시연 · 주은우 · 이헌</p><p class="character-map"><b>등장인물</b> 지윤(에블린) · 시연(미아) · 은우(루크) · 헌(헌)</p>
+  </section>
+</main>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

@@ -1,10 +1,10 @@
 {
-  "name": "Magic Art Webtoon",
-  "short_name": "MagicArt",
+  "name": "MAGIC ART - 마법의 미술 도구함",
+  "short_name": "MAGIC ART",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#111111",
-  "theme_color": "#111111",
+  "background_color": "#0d0d0d",
+  "theme_color": "#0d0d0d",
   "icons": [
     {
       "src": "icon.svg",
