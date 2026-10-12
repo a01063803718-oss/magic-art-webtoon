@@ -75,3 +75,26 @@ body.light #drawer a{color:#111;border-color:#ddd}
 @media(min-width:900px){
   .panel-text{font-size:22px;padding:36px 44px 50px}
 }
+
+
+.panel-image{
+  width:100%;
+  min-height:auto;
+  padding:0;
+  overflow:hidden;
+  background:#000;
+  border-bottom:1px solid var(--line);
+  position:relative;
+}
+.panel-real-image{
+  display:block;
+  width:100%;
+  height:auto;
+}
+.panel-label{
+  color:#777;
+  font-size:16px;
+  line-height:1.55;
+  max-width:75%;
+  padding:24px;
+}

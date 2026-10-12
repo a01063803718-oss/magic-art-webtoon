@@ -3,10 +3,16 @@ const story=document.querySelector('.story');
 scenes.forEach((s,i)=>{
   const sec=document.createElement('section');
   sec.className='panel';
+  const sceneNo = String(i+1).padStart(2,'0');
+  const imageMap = {1:'scene-001.png'};
+  const visualHtml = imageMap[i+1]
+    ? `<img class="panel-real-image" src="${imageMap[i+1]}" alt="SCENE ${sceneNo}">`
+    : `<div class="panel-label">${s[0]}</div>`;
+
   sec.innerHTML=`
     <div class="panel-image">
-      <div class="panel-no">SCENE ${String(i+1).padStart(2,'0')}</div>
-      <div class="panel-label">${s[0]}</div>
+      <div class="panel-no">SCENE ${sceneNo}</div>
+      ${visualHtml}
     </div>
     <div class="panel-text"><p>${s[1]}</p></div>`;
   story.appendChild(sec);
