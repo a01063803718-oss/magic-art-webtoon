@@ -4,7 +4,7 @@ scenes.forEach((s,i)=>{
   const sec=document.createElement('section');
   sec.className='panel';
   const sceneNo = String(i+1).padStart(2,'0');
-  const imageMap = {1:'scene-001.png', 2:'scene-002.png'};
+  const imageMap = {1:'scene-001.png', 2:'scene-002.png', 3:'scene-003.png'};
   const visualHtml = imageMap[i+1]
     ? `<img class="panel-real-image" src="${imageMap[i+1]}" alt="SCENE ${sceneNo}">`
     : `<div class="panel-label">${s[0]}</div>`;
