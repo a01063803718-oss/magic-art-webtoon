@@ -1,4 +1,4 @@
-const scenes = [{"id": "scene-001", "label": "SCENE 01", "image": "scene-001.png", "overlay": "아주 오래전부터, 우리가 사는 세계와는 전혀 다른 차원의 어딘가에 하나의 마법 세계가 존재했다.", "overlayPosition": "top-left", "narration": "아주 오래전부터, 우리가 사는 세계와는 전혀 다른 차원의 어딘가에 하나의 마법 세계가 존재했다."}, {"id": "scene-002", "label": "SCENE 02", "image": "scene-002.png", "overlay": "그곳은 높은 탑과 오래된 성, 빛나는 숲과 강이 어우러진 아름다운 곳이었다.", "overlayPosition": "bottom-right", "narration": "그곳은 높은 탑과 오래된 성, 빛나는 숲과 강이 어우러진 아름다운 곳이었다."}, {"id": "scene-003", "label": "SCENE 03", "image": "scene-003.png", "overlay": "하지만 그 세계가 특별한 진짜 이유는 따로 있었다. 그곳에서는 사람들의 ‘재능’이 곧 마법이었다.", "overlayPosition": "mid-left", "narration": "하지만 그 세계가 특별한 진짜 이유는 따로 있었다. 그곳에서는 사람들의 ‘재능’이 곧 마법이었다."}]
+const scenes = [{"id": "scene-001", "label": "SCENE 01", "image": "scene-001.png", "overlay": "아주 오래전부터, 우리가 사는 세계와는 전혀 다른 차원의 어딘가에 하나의 마법 세계가 존재했다.", "overlayPosition": "top-left", "overlayTheme": "theme-royal", "ornament": "✦", "narration": "아주 오래전부터, 우리가 사는 세계와는 전혀 다른 차원의 어딘가에 하나의 마법 세계가 존재했다."}, {"id": "scene-002", "label": "SCENE 02", "image": "scene-002.png", "overlay": "그곳은 높은 탑과 오래된 성, 빛나는 숲과 강이 어우러진 아름다운 곳이었다.", "overlayPosition": "bottom-right", "overlayTheme": "theme-floral", "ornament": "❀", "narration": "그곳은 높은 탑과 오래된 성, 빛나는 숲과 강이 어우러진 아름다운 곳이었다."}, {"id": "scene-003", "label": "SCENE 03", "image": "scene-003.png", "overlay": "하지만 그 세계가 특별한 진짜 이유는 따로 있었다. 그곳에서는 사람들의 ‘재능’이 곧 마법이었다.", "overlayPosition": "mid-right", "overlayTheme": "theme-talent", "ornament": "♪", "narration": "하지만 그 세계가 특별한 진짜 이유는 따로 있었다. 그곳에서는 사람들의 ‘재능’이 곧 마법이었다."}]
 
 const story = document.getElementById('story');
 
@@ -10,7 +10,16 @@ scenes.forEach(scene => {
     <div class="scene-label">${scene.label}</div>
     <div class="scene-visual">
       <img class="scene-image" src="${scene.image}" alt="${scene.label}">
-      <div class="bubble ${scene.overlayPosition}">${scene.overlay}</div>
+      <div class="plaque ${scene.overlayPosition} ${scene.overlayTheme}">
+        <div class="plaque-ornament plaque-ornament-top">${scene.ornament}</div>
+        <div class="plaque-corner corner-tl"></div>
+        <div class="plaque-corner corner-tr"></div>
+        <div class="plaque-corner corner-bl"></div>
+        <div class="plaque-corner corner-br"></div>
+        <div class="plaque-inner">
+          <div class="plaque-text">${scene.overlay}</div>
+        </div>
+      </div>
     </div>
     <div class="narration-card">
       <p>${scene.narration}</p>
