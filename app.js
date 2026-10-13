@@ -3,6 +3,9 @@ const story=document.querySelector('.story');
 scenes.forEach((s,i)=>{
   const sec=document.createElement('section');
   sec.className='panel';
+  sec.id=`scene-${String(i+1).padStart(3,'0')}`;
+  sec.dataset.sceneIndex=String(i+1);
+
   const sceneNo = String(i+1).padStart(2,'0');
   const imageMap = {1:'scene-001.png', 2:'scene-002.png', 3:'scene-003.png'};
   const visualHtml = imageMap[i+1]
@@ -10,6 +13,7 @@ scenes.forEach((s,i)=>{
     : `<div class="panel-label">${s[0]}</div>`;
 
   sec.innerHTML=`
+    <button class="panel-bookmark" type="button" aria-label="SCENE ${sceneNo} 책갈피" title="여기까지 읽음">🔖</button>
     <div class="panel-image">
       ${visualHtml}
     </div>
@@ -27,4 +31,108 @@ document.getElementById('themeBtn').onclick=()=>{
   localStorage.setItem('magicart-theme',document.body.classList.contains('light')?'light':'dark');
 };
 if(localStorage.getItem('magicart-theme')==='light')document.body.classList.add('light');
+
+
+// ===== Reading progress / bookmark =====
+const PROGRESS_KEY='magicart-last-scene';
+const BOOKMARK_KEY='magicart-bookmark-scene';
+
+const continueBtn=document.getElementById('continueBtn');
+const continueMeta=document.getElementById('continueMeta');
+const bookmarkJumpBtn=document.getElementById('bookmarkJumpBtn');
+const bookmarkMeta=document.getElementById('bookmarkMeta');
+
+function sceneLabel(n){
+  return `SCENE ${String(n).padStart(2,'0')}`;
+}
+function getSceneElement(n){
+  return document.getElementById(`scene-${String(n).padStart(3,'0')}`);
+}
+function closeDrawerOnly(){
+  drawer.classList.remove('open');
+  backdrop.classList.remove('show');
+}
+function scrollToScene(n){
+  const el=getSceneElement(Number(n));
+  if(!el) return;
+  closeDrawerOnly();
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+function refreshReadingUI(){
+  const last=Number(localStorage.getItem(PROGRESS_KEY)||0);
+  const bookmark=Number(localStorage.getItem(BOOKMARK_KEY)||0);
+
+  if(last>0){
+    continueBtn.disabled=false;
+    continueMeta.textContent=`${sceneLabel(last)}부터`;
+  }else{
+    continueBtn.disabled=true;
+    continueMeta.textContent='저장된 위치 없음';
+  }
+
+  if(bookmark>0){
+    bookmarkJumpBtn.disabled=false;
+    bookmarkMeta.textContent=`${sceneLabel(bookmark)} 저장됨`;
+  }else{
+    bookmarkJumpBtn.disabled=true;
+    bookmarkMeta.textContent='저장된 책갈피 없음';
+  }
+
+  document.querySelectorAll('.panel-bookmark').forEach(btn=>btn.classList.remove('saved'));
+  if(bookmark>0){
+    const panel=getSceneElement(bookmark);
+    if(panel) panel.querySelector('.panel-bookmark')?.classList.add('saved');
+  }
+}
+
+continueBtn?.addEventListener('click',()=>{
+  const n=Number(localStorage.getItem(PROGRESS_KEY)||0);
+  if(n) scrollToScene(n);
+});
+bookmarkJumpBtn?.addEventListener('click',()=>{
+  const n=Number(localStorage.getItem(BOOKMARK_KEY)||0);
+  if(n) scrollToScene(n);
+});
+
+document.querySelectorAll('.panel').forEach(panel=>{
+  const btn=panel.querySelector('.panel-bookmark');
+  btn?.addEventListener('click',(e)=>{
+    e.stopPropagation();
+    const n=Number(panel.dataset.sceneIndex);
+    const current=Number(localStorage.getItem(BOOKMARK_KEY)||0);
+
+    if(current===n){
+      localStorage.removeItem(BOOKMARK_KEY);
+    }else{
+      localStorage.setItem(BOOKMARK_KEY,String(n));
+      localStorage.setItem(PROGRESS_KEY,String(n));
+    }
+    refreshReadingUI();
+  });
+});
+
+// Save the most visible scene as the last-read point.
+let progressTimer=null;
+const observer=new IntersectionObserver(entries=>{
+  let best=null;
+  for(const entry of entries){
+    if(entry.isIntersecting && (!best || entry.intersectionRatio>best.intersectionRatio)){
+      best=entry;
+    }
+  }
+  if(best){
+    clearTimeout(progressTimer);
+    progressTimer=setTimeout(()=>{
+      const n=Number(best.target.dataset.sceneIndex);
+      if(n){
+        localStorage.setItem(PROGRESS_KEY,String(n));
+        refreshReadingUI();
+      }
+    },250);
+  }
+},{threshold:[0.35,0.55,0.75]});
+
+document.querySelectorAll('.panel').forEach(panel=>observer.observe(panel));
+refreshReadingUI();
+
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'))}
