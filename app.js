@@ -13,7 +13,7 @@ scenes.forEach((s,i)=>{
     : `<div class="panel-label">${s[0]}</div>`;
 
   sec.innerHTML=`
-    <button class="panel-bookmark" type="button" aria-label="SCENE ${sceneNo} 책갈피" title="여기까지 읽음"><img class="panel-bookmark-art" alt="책갈피 작품"></button>
+    <button class="panel-bookmark" type="button" aria-label="SCENE ${sceneNo} 책갈피" title="여기에 책갈피 꽂기"><img class="panel-bookmark-art" alt="책갈피 작품"></button>
     <div class="panel-image">
       ${visualHtml}
     </div>
@@ -182,5 +182,21 @@ const observer=new IntersectionObserver(entries=>{
 
 document.querySelectorAll('.panel').forEach(panel=>observer.observe(panel));
 refreshReadingUI();
+
+
+
+// ===== Auto resume from saved bookmark on app open =====
+window.addEventListener('load', () => {
+  const bookmark = Number(localStorage.getItem(BOOKMARK_KEY) || 0);
+  if (!bookmark) return;
+
+  // Let layout and images settle, then jump directly to the bookmarked scene.
+  setTimeout(() => {
+    const target = getSceneElement(bookmark);
+    if (target) {
+      target.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
+  }, 350);
+});
 
 if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'))}
