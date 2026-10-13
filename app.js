@@ -13,7 +13,7 @@ scenes.forEach((s,i)=>{
     : `<div class="panel-label">${s[0]}</div>`;
 
   sec.innerHTML=`
-    <button class="panel-bookmark" type="button" aria-label="SCENE ${sceneNo} 책갈피" title="여기까지 읽음">🔖</button>
+    <button class="panel-bookmark" type="button" aria-label="SCENE ${sceneNo} 책갈피" title="여기까지 읽음"><img class="panel-bookmark-art" alt="책갈피 작품"></button>
     <div class="panel-image">
       ${visualHtml}
     </div>
@@ -37,10 +37,32 @@ if(localStorage.getItem('magicart-theme')==='light')document.body.classList.add(
 const PROGRESS_KEY='magicart-last-scene';
 const BOOKMARK_KEY='magicart-bookmark-scene';
 
+const BOOKMARK_ARTS=["bookmark-art-01.jpg", "bookmark-art-02.jpg", "bookmark-art-03.jpg", "bookmark-art-04.jpg", "bookmark-art-05.jpg", "bookmark-art-06.jpg"];
+const BOOKMARK_ART_SELECTED_KEY='magicart-bookmark-art-selected';
+
+function getSelectedBookmarkArtwork(){
+  let selected=localStorage.getItem(BOOKMARK_ART_SELECTED_KEY);
+  if(!selected || !BOOKMARK_ARTS.includes(selected)){
+    selected=BOOKMARK_ARTS[Math.floor(Math.random()*BOOKMARK_ARTS.length)];
+    localStorage.setItem(BOOKMARK_ART_SELECTED_KEY,selected);
+  }
+  return selected;
+}
+
+function setSelectedBookmarkArtwork(name){
+  if(!BOOKMARK_ARTS.includes(name)) return;
+  localStorage.setItem(BOOKMARK_ART_SELECTED_KEY,name);
+  refreshReadingUI();
+}
+
+
 const continueBtn=document.getElementById('continueBtn');
 const continueMeta=document.getElementById('continueMeta');
 const bookmarkJumpBtn=document.getElementById('bookmarkJumpBtn');
 const bookmarkMeta=document.getElementById('bookmarkMeta');
+const bookmarkArtImage=document.getElementById('bookmarkArtImage');
+const bookmarkArtScene=document.getElementById('bookmarkArtScene');
+const bookmarkArtPicker=document.getElementById('bookmarkArtPicker');
 
 function sceneLabel(n){
   return `SCENE ${String(n).padStart(2,'0')}`;
@@ -61,6 +83,13 @@ function scrollToScene(n){
 function refreshReadingUI(){
   const last=Number(localStorage.getItem(PROGRESS_KEY)||0);
   const bookmark=Number(localStorage.getItem(BOOKMARK_KEY)||0);
+  const selectedArt=getSelectedBookmarkArtwork();
+
+  if(bookmarkArtImage) bookmarkArtImage.src=selectedArt;
+  document.querySelectorAll('.panel-bookmark-art').forEach(img=>img.src=selectedArt);
+  document.querySelectorAll('.bookmark-art-choice').forEach(btn=>{
+    btn.classList.toggle('selected',btn.dataset.art===selectedArt);
+  });
 
   if(last>0){
     continueBtn.disabled=false;
@@ -72,10 +101,12 @@ function refreshReadingUI(){
 
   if(bookmark>0){
     bookmarkJumpBtn.disabled=false;
-    bookmarkMeta.textContent=`${sceneLabel(bookmark)} 저장됨`;
+    bookmarkMeta.textContent='선택한 작품이 현재 책갈피 디자인입니다.';
+    if(bookmarkArtScene) bookmarkArtScene.textContent=`${sceneLabel(bookmark)} · 여기까지 읽음`;
   }else{
     bookmarkJumpBtn.disabled=true;
-    bookmarkMeta.textContent='저장된 책갈피 없음';
+    bookmarkMeta.textContent='작품을 탭하면 이 그림으로 책갈피가 고정됩니다.';
+    if(bookmarkArtScene) bookmarkArtScene.textContent='아직 저장된 책갈피가 없습니다';
   }
 
   document.querySelectorAll('.panel-bookmark').forEach(btn=>btn.classList.remove('saved'));
@@ -83,6 +114,23 @@ function refreshReadingUI(){
     const panel=getSceneElement(bookmark);
     if(panel) panel.querySelector('.panel-bookmark')?.classList.add('saved');
   }
+}
+
+
+if(bookmarkArtPicker){
+  BOOKMARK_ARTS.forEach((name,index)=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='bookmark-art-choice';
+    btn.dataset.art=name;
+    btn.setAttribute('aria-label',`책갈피 작품 ${index+1}`);
+    btn.innerHTML=`<img src="${name}" alt="책갈피 작품 ${index+1}">`;
+    btn.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      setSelectedBookmarkArtwork(name);
+    });
+    bookmarkArtPicker.appendChild(btn);
+  });
 }
 
 continueBtn?.addEventListener('click',()=>{

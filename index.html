@@ -26,14 +26,20 @@
     <span id="continueMeta" class="drawer-action-meta">저장된 위치 없음</span>
   </button>
 
-  <button id="bookmarkJumpBtn" class="drawer-action bookmark-art-action" type="button">
+  <div class="drawer-action bookmark-art-panel">
     <span class="drawer-action-title">내 책갈피</span>
-    <span class="bookmark-art-frame">
-      <img id="bookmarkArtImage" class="bookmark-art-image" src="bookmark-art-01.jpg" alt="학생 작품 책갈피">
-      <span id="bookmarkArtScene" class="bookmark-art-scene">아직 저장된 책갈피가 없습니다</span>
-    </span>
-    <span id="bookmarkMeta" class="drawer-action-meta">작품은 앱을 열 때마다 랜덤으로 바뀝니다</span>
-  </button>
+
+    <button id="bookmarkJumpBtn" class="bookmark-main-card" type="button">
+      <span class="bookmark-main-frame">
+        <img id="bookmarkArtImage" src="bookmark-art-01.jpg" alt="선택한 책갈피 작품">
+        <span id="bookmarkArtScene">아직 저장된 책갈피가 없습니다</span>
+      </span>
+    </button>
+
+    <span class="bookmark-picker-title">책갈피 그림 선택</span>
+    <div id="bookmarkArtPicker" class="bookmark-art-picker"></div>
+    <span id="bookmarkMeta" class="drawer-action-meta">작품을 탭하면 이 그림으로 책갈피가 고정됩니다.</span>
+  </div>
 
   <a href="#cover">표지</a>
   <a href="#story">EP. 01 마법의 세계</a>
