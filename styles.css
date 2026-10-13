@@ -251,17 +251,17 @@ body.light .panel-bookmark.saved{
   font-weight:900;
 }
 
-/* Ribbon + artwork bookmark */
+/* Ribbon + artwork bookmark : ornate framed version */
 .panel-bookmark{
   position:absolute !important;
   z-index:14;
   top:12px !important;
-  right:12px !important;
+  left:12px !important;
   width:38px !important;
   height:38px !important;
   padding:0 !important;
   border-radius:50% !important;
-  border:1px solid rgba(255,255,255,.38) !important;
+  border:1px solid rgba(255,255,255,.34) !important;
   background:rgba(12,12,12,.58) !important;
   box-shadow:0 3px 12px rgba(0,0,0,.22) !important;
   overflow:visible !important;
@@ -282,54 +282,78 @@ body.light .panel-bookmark.saved{
   display:none;
 }
 
-/* Once saved, the small button becomes a hanging ribbon bookmark */
+/* Saved state: long ribbon + framed artwork bookmark */
 .panel-bookmark.saved{
   top:0 !important;
-  right:18px !important;
-  width:68px !important;
-  height:178px !important;
+  left:16px !important;
+  width:92px !important;
+  height:232px !important;
   border:0 !important;
   border-radius:0 !important;
-  background:transparent !important;
+  background:
+    radial-gradient(circle at 50% 95px, rgba(255,244,201,.95) 0 5px, rgba(214,171,84,.98) 5px 10px, rgba(121,81,18,.95) 10px 12px, transparent 13px),
+    linear-gradient(180deg,#4b2f08 0%,#a97a2a 18%,#f7e8b2 48%,#9d7127 78%,#4b2f08 100%) calc(50% - 2px) 0/2px 96px no-repeat,
+    linear-gradient(180deg,#4b2f08 0%,#a97a2a 18%,#f7e8b2 48%,#9d7127 78%,#4b2f08 100%) calc(50% + 2px) 0/2px 96px no-repeat !important;
   box-shadow:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
 }
 .panel-bookmark.saved::before{
   content:"";
   position:absolute;
-  top:0;
-  left:50%;
-  width:3px;
-  height:92px;
-  transform:translateX(-50%);
-  border-radius:99px;
-  background:linear-gradient(180deg,#e6cf7b 0%,#b9963a 100%);
-  box-shadow:0 1px 3px rgba(0,0,0,.28);
+  top:102px;
+  left:4px;
+  width:84px;
+  height:112px;
+  background:
+    radial-gradient(circle at 14px 14px, rgba(255,255,255,.42) 0 2px, transparent 2.5px),
+    radial-gradient(circle at calc(100% - 14px) 14px, rgba(255,255,255,.42) 0 2px, transparent 2.5px),
+    radial-gradient(circle at 14px calc(100% - 24px), rgba(125,86,20,.18) 0 2px, transparent 2.5px),
+    radial-gradient(circle at calc(100% - 14px) calc(100% - 24px), rgba(125,86,20,.18) 0 2px, transparent 2.5px),
+    linear-gradient(180deg, rgba(255,251,238,.98) 0%, rgba(245,231,189,.98) 22%, rgba(227,193,117,.98) 65%, rgba(183,126,43,.98) 100%);
+  clip-path:polygon(0 0,100% 0,100% 85%,50% 100%,0 85%);
+  border-radius:18px 18px 0 0;
+  box-shadow:
+    0 14px 24px rgba(0,0,0,.26),
+    0 4px 10px rgba(88,52,6,.16),
+    inset 0 0 0 1px rgba(255,251,236,.9),
+    inset 0 0 0 4px rgba(197,146,56,.65),
+    inset 0 -14px 20px rgba(126,80,12,.22);
 }
 .panel-bookmark.saved::after{
-  content:"";
+  content:"✦";
   position:absolute;
-  top:87px;
+  top:82px;
   left:50%;
-  width:10px;
-  height:10px;
   transform:translateX(-50%);
+  width:24px;
+  height:24px;
   border-radius:50%;
-  background:#d9bc61;
-  border:2px solid #f6e8a9;
-  box-shadow:0 2px 4px rgba(0,0,0,.3);
+  display:grid;
+  place-items:center;
+  font-size:11px;
+  color:#7a520a;
+  background:radial-gradient(circle at 35% 35%, #fff7db 0%, #f3d98e 42%, #d3a243 74%, #8a5e13 100%);
+  border:1px solid rgba(121,81,18,.55);
+  box-shadow:0 4px 8px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.7);
 }
 .panel-bookmark.saved img{
   display:block;
   position:absolute;
-  top:98px;
-  left:0;
-  width:68px;
-  height:80px;
+  top:112px;
+  left:10px;
+  width:72px;
+  height:94px;
   object-fit:cover;
-  border:2px solid #f0d36b;
+  border:3px solid rgba(255,248,224,.96);
+  outline:1px solid rgba(151,103,22,.45);
+  outline-offset:-5px;
   background:#111;
-  box-shadow:0 6px 18px rgba(0,0,0,.38);
   clip-path:polygon(0 0,100% 0,100% 86%,50% 100%,0 86%);
+  box-shadow:
+    0 0 0 1px rgba(145,97,18,.36),
+    0 8px 14px rgba(0,0,0,.16),
+    inset 0 0 0 1px rgba(255,255,255,.18);
 }
 
 /* small hover/tap feedback */
@@ -337,7 +361,7 @@ body.light .panel-bookmark.saved{
   transform:scale(.94);
 }
 .panel-bookmark.saved:active img{
-  transform:scale(.97);
+  transform:translateY(1px) scale(.985);
 }
 
 body.light .panel-bookmark:not(.saved){
