@@ -7,7 +7,7 @@ scenes.forEach((s,i)=>{
   sec.dataset.sceneIndex=String(i+1);
 
   const sceneNo = String(i+1).padStart(2,'0');
-  const imageMap = {1:'scene-001.png', 2:'scene-002.png', 3:'scene-003.png', 4:'scene-004.png', 5:'scene-005.png', 6:'scene-006.png', 7:'scene-007.png', 8:'scene-008.png', 9:'scene-009.png'};
+  const imageMap = {1:'scene-001.png', 2:'scene-002.png', 3:'scene-003.png', 4:'scene-004.png', 5:'scene-005.png', 6:'scene-006.png', 7:'scene-007.png', 8:'scene-008.png', 9:'scene-009.png', 10:'scene-010.png'};
   const visualHtml = imageMap[i+1]
     ? `<img class="panel-real-image" src="${imageMap[i+1]}" alt="SCENE ${sceneNo}">`
     : `<div class="panel-label">${s[0]}</div>`;
