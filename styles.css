@@ -372,3 +372,79 @@ body.light .panel-bookmark:not(.saved)::before{
   color:#111;
 }
 body.light .bookmark-picker-title{color:#444}
+
+
+/* === v2.17 Single-border bookmark refinement === */
+.bookmark-main-frame{
+  border:1px solid rgba(214,181,101,.55);
+  border-radius:18px;
+  overflow:hidden;
+  background:#111;
+  box-shadow:0 10px 24px rgba(0,0,0,.22);
+}
+body.light .bookmark-main-frame{
+  border-color:rgba(160,120,40,.45);
+}
+
+.panel-bookmark{
+  overflow:visible !important;
+}
+.panel-bookmark.saved{
+  top:0 !important;
+  left:14px !important;
+  width:74px !important;
+  height:222px !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:linear-gradient(180deg,#3d2a12 0%, #b98b37 28%, #f6e5ab 50%, #b98b37 72%, #3d2a12 100%) 36px 0 / 2px 94px no-repeat !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+.panel-bookmark.saved::before{
+  content:"" !important;
+  position:absolute;
+  top:94px;
+  left:0;
+  width:74px;
+  height:116px;
+  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
+  border:none !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:0 10px 18px rgba(0,0,0,.22);
+  outline:none !important;
+}
+.panel-bookmark.saved::after{
+  content:"" !important;
+  position:absolute;
+  top:94px;
+  left:0;
+  width:74px;
+  height:116px;
+  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
+  border:1px solid rgba(194,148,60,.95);
+  box-sizing:border-box;
+  pointer-events:none;
+}
+.panel-bookmark.saved img,
+.panel-bookmark img.panel-bookmark-art{
+  display:block !important;
+  position:absolute;
+  top:95px;
+  left:1px;
+  width:72px;
+  height:114px;
+  object-fit:cover;
+  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
+  border:0 !important;
+  outline:0 !important;
+  background:#111;
+  box-shadow:none !important;
+}
+.panel-bookmark:not(.saved) img{display:none !important;}
+.panel-bookmark.saved:active img{transform:none;}
+body.light .panel-bookmark.saved::after{
+  border-color:rgba(168,122,33,.95);
+}
