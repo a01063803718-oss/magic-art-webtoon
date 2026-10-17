@@ -448,3 +448,86 @@ body.light .bookmark-main-frame{
 body.light .panel-bookmark.saved::after{
   border-color:rgba(168,122,33,.95);
 }
+
+
+/* === BOOKMARK MENU FIX v2.22 ===
+   1) Remove the large circular decoration that can cover the selected artwork.
+   2) Make the left drawer itself scroll vertically and prevent scroll chaining to the comic.
+*/
+#drawer{
+  height:100dvh;
+  max-height:100dvh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  scrollbar-gutter:stable;
+}
+#drawer.open{
+  overflow-y:auto;
+}
+#backdrop.show{
+  touch-action:none;
+}
+html:has(#drawer.open),
+body:has(#drawer.open){
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+
+/* Saved bookmark: only one thin hanging line + one artwork border. */
+.panel-bookmark.saved{
+  top:0 !important;
+  left:14px !important;
+  width:76px !important;
+  height:220px !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:linear-gradient(180deg,#6b4812 0%,#d8b15a 45%,#6b4812 100%) 37px 0 / 2px 94px no-repeat !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  overflow:visible !important;
+}
+/* Explicitly remove all old circle/medallion/body pseudo-shapes. */
+.panel-bookmark.saved::before{
+  content:none !important;
+  display:none !important;
+  background:none !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+/* The ONLY border: one thin outline around the artwork bookmark. */
+.panel-bookmark.saved::after{
+  content:"" !important;
+  display:block !important;
+  position:absolute !important;
+  top:94px !important;
+  left:0 !important;
+  width:76px !important;
+  height:116px !important;
+  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%) !important;
+  background:transparent !important;
+  border:1px solid #c79b45 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  box-sizing:border-box !important;
+  pointer-events:none !important;
+}
+.panel-bookmark.saved img.panel-bookmark-art{
+  display:block !important;
+  position:absolute !important;
+  top:95px !important;
+  left:1px !important;
+  width:74px !important;
+  height:114px !important;
+  object-fit:cover !important;
+  object-position:center !important;
+  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%) !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+}
