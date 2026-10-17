@@ -92,35 +92,118 @@ body.light #drawer a{color:#111;border-color:#ddd}
   padding:24px;
 }
 
-
-/* === v2.8 Bookmark / Continue Reading === */
+/* === Bookmark / Continue Reading : CLEAN v2.23 === */
 .panel{
   position:relative;
   scroll-margin-top:72px;
 }
+
+/* Small unsaved bookmark button */
 .panel-bookmark{
   position:absolute;
-  z-index:12;
+  z-index:14;
   top:12px;
-  right:12px;
-  width:42px;
-  height:42px;
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:12px;
-  background:rgba(10,10,10,.68);
+  left:12px;
+  width:38px;
+  height:38px;
+  padding:0;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.34);
+  background:rgba(12,12,12,.58);
   color:#fff;
-  font-size:21px;
+  box-shadow:0 3px 12px rgba(0,0,0,.22);
   display:grid;
   place-items:center;
   cursor:pointer;
-  backdrop-filter:blur(8px);
-  box-shadow:0 4px 14px rgba(0,0,0,.22);
+  overflow:visible;
 }
+.panel-bookmark::before{
+  content:"＋";
+  display:grid;
+  place-items:center;
+  position:absolute;
+  inset:0;
+  font-size:22px;
+  font-weight:700;
+  line-height:1;
+  color:#fff;
+}
+.panel-bookmark img{
+  display:none;
+}
+.panel-bookmark:not(.saved):active{
+  transform:scale(.94);
+}
+
+/* Saved bookmark: line ends ABOVE the artwork. */
 .panel-bookmark.saved{
-  background:#f1e5b8;
-  color:#181818;
-  border-color:#d5c17a;
+  top:0;
+  left:14px;
+  width:76px;
+  height:212px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
 }
+.panel-bookmark.saved::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:37px;
+  width:2px;
+  height:94px;
+  background:linear-gradient(180deg,#6b4812 0%,#d8b15a 45%,#6b4812 100%);
+  border-radius:2px;
+  pointer-events:none;
+}
+.panel-bookmark.saved::after{
+  content:"";
+  position:absolute;
+  top:94px;
+  left:0;
+  width:76px;
+  height:116px;
+  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
+  border:1px solid #c79b45;
+  box-sizing:border-box;
+  pointer-events:none;
+  z-index:2;
+}
+.panel-bookmark.saved img.panel-bookmark-art{
+  display:block;
+  position:absolute;
+  top:95px;
+  left:1px;
+  width:74px;
+  height:114px;
+  object-fit:cover;
+  object-position:center;
+  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
+  border:0;
+  outline:0;
+  box-shadow:none;
+  background:transparent;
+  z-index:1;
+}
+.panel-bookmark.saved:active img{
+  transform:none;
+}
+
+body.light .panel-bookmark:not(.saved){
+  background:rgba(255,255,255,.82);
+  color:#111;
+  border-color:rgba(0,0,0,.2);
+}
+body.light .panel-bookmark:not(.saved)::before{
+  color:#111;
+}
+body.light .panel-bookmark.saved::after{
+  border-color:rgba(168,122,33,.95);
+}
+
+/* Drawer actions */
 .drawer-action{
   width:100%;
   display:flex;
@@ -154,18 +237,8 @@ body.light .drawer-action{
 body.light .drawer-action-meta{
   color:#666;
 }
-body.light .panel-bookmark{
-  background:rgba(255,255,255,.78);
-  color:#111;
-  border-color:rgba(0,0,0,.14);
-}
-body.light .panel-bookmark.saved{
-  background:#eadb9d;
-  border-color:#cbb86d;
-}
 
-
-/* === v2.10 Artwork Bookmark Selection === */
+/* Bookmark artwork selection */
 .bookmark-art-panel{gap:10px}
 .bookmark-main-card{
   width:100%;
@@ -182,10 +255,10 @@ body.light .panel-bookmark.saved{
   width:100%;
   aspect-ratio:4/5;
   overflow:hidden;
-  border-radius:14px;
+  border-radius:18px;
   background:#111;
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow:0 8px 22px rgba(0,0,0,.22);
+  border:1px solid rgba(214,181,101,.55);
+  box-shadow:0 10px 24px rgba(0,0,0,.22);
 }
 .bookmark-main-frame img{
   display:block;
@@ -195,7 +268,9 @@ body.light .panel-bookmark.saved{
 }
 #bookmarkArtScene{
   position:absolute;
-  left:10px; right:10px; bottom:10px;
+  left:10px;
+  right:10px;
+  bottom:10px;
   padding:9px 10px;
   border-radius:10px;
   background:rgba(0,0,0,.68);
@@ -203,7 +278,6 @@ body.light .panel-bookmark.saved{
   font-size:12px;
   font-weight:800;
   line-height:1.35;
-  backdrop-filter:blur(6px);
 }
 .bookmark-picker-title{
   display:block;
@@ -240,8 +314,10 @@ body.light .panel-bookmark.saved{
 .bookmark-art-choice.selected::after{
   content:"✓";
   position:absolute;
-  top:5px; right:5px;
-  width:22px; height:22px;
+  top:5px;
+  right:5px;
+  width:22px;
+  height:22px;
   border-radius:50%;
   display:grid;
   place-items:center;
@@ -250,210 +326,14 @@ body.light .panel-bookmark.saved{
   font-size:13px;
   font-weight:900;
 }
-
-/* Ribbon + artwork bookmark : ornate framed version */
-.panel-bookmark{
-  position:absolute !important;
-  z-index:14;
-  top:12px !important;
-  left:12px !important;
-  width:38px !important;
-  height:38px !important;
-  padding:0 !important;
-  border-radius:50% !important;
-  border:1px solid rgba(255,255,255,.34) !important;
-  background:rgba(12,12,12,.58) !important;
-  box-shadow:0 3px 12px rgba(0,0,0,.22) !important;
-  overflow:visible !important;
-  cursor:pointer;
-}
-.panel-bookmark::before{
-  content:"＋";
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-  color:#fff;
-  font-size:22px;
-  font-weight:700;
-  line-height:1;
-}
-.panel-bookmark img{
-  display:none;
-}
-
-/* Saved state: long ribbon + framed artwork bookmark */
-.panel-bookmark.saved{
-  top:0 !important;
-  left:16px !important;
-  width:92px !important;
-  height:232px !important;
-  border:0 !important;
-  border-radius:0 !important;
-  background:
-    radial-gradient(circle at 50% 95px, rgba(255,244,201,.95) 0 5px, rgba(214,171,84,.98) 5px 10px, rgba(121,81,18,.95) 10px 12px, transparent 13px),
-    linear-gradient(180deg,#4b2f08 0%,#a97a2a 18%,#f7e8b2 48%,#9d7127 78%,#4b2f08 100%) calc(50% - 2px) 0/2px 96px no-repeat,
-    linear-gradient(180deg,#4b2f08 0%,#a97a2a 18%,#f7e8b2 48%,#9d7127 78%,#4b2f08 100%) calc(50% + 2px) 0/2px 96px no-repeat !important;
-  box-shadow:none !important;
-  backdrop-filter:none !important;
-  -webkit-backdrop-filter:none !important;
-}
-.panel-bookmark.saved::before{
-  content:"";
-  position:absolute;
-  top:102px;
-  left:4px;
-  width:84px;
-  height:112px;
-  background:
-    radial-gradient(circle at 14px 14px, rgba(255,255,255,.42) 0 2px, transparent 2.5px),
-    radial-gradient(circle at calc(100% - 14px) 14px, rgba(255,255,255,.42) 0 2px, transparent 2.5px),
-    radial-gradient(circle at 14px calc(100% - 24px), rgba(125,86,20,.18) 0 2px, transparent 2.5px),
-    radial-gradient(circle at calc(100% - 14px) calc(100% - 24px), rgba(125,86,20,.18) 0 2px, transparent 2.5px),
-    linear-gradient(180deg, rgba(255,251,238,.98) 0%, rgba(245,231,189,.98) 22%, rgba(227,193,117,.98) 65%, rgba(183,126,43,.98) 100%);
-  clip-path:polygon(0 0,100% 0,100% 85%,50% 100%,0 85%);
-  border-radius:18px 18px 0 0;
-  box-shadow:
-    0 14px 24px rgba(0,0,0,.26),
-    0 4px 10px rgba(88,52,6,.16),
-    inset 0 0 0 1px rgba(255,251,236,.9),
-    inset 0 0 0 4px rgba(197,146,56,.65),
-    inset 0 -14px 20px rgba(126,80,12,.22);
-}
-.panel-bookmark.saved::after{
-  content:"✦";
-  position:absolute;
-  top:82px;
-  left:50%;
-  transform:translateX(-50%);
-  width:24px;
-  height:24px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  font-size:11px;
-  color:#7a520a;
-  background:radial-gradient(circle at 35% 35%, #fff7db 0%, #f3d98e 42%, #d3a243 74%, #8a5e13 100%);
-  border:1px solid rgba(121,81,18,.55);
-  box-shadow:0 4px 8px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.7);
-}
-.panel-bookmark.saved img{
-  display:block;
-  position:absolute;
-  top:112px;
-  left:10px;
-  width:72px;
-  height:94px;
-  object-fit:cover;
-  border:3px solid rgba(255,248,224,.96);
-  outline:1px solid rgba(151,103,22,.45);
-  outline-offset:-5px;
-  background:#111;
-  clip-path:polygon(0 0,100% 0,100% 86%,50% 100%,0 86%);
-  box-shadow:
-    0 0 0 1px rgba(145,97,18,.36),
-    0 8px 14px rgba(0,0,0,.16),
-    inset 0 0 0 1px rgba(255,255,255,.18);
-}
-
-/* small hover/tap feedback */
-.panel-bookmark:not(.saved):active{
-  transform:scale(.94);
-}
-.panel-bookmark.saved:active img{
-  transform:translateY(1px) scale(.985);
-}
-
-body.light .panel-bookmark:not(.saved){
-  background:rgba(255,255,255,.82) !important;
-  border-color:rgba(0,0,0,.2) !important;
-}
-body.light .panel-bookmark:not(.saved)::before{
-  color:#111;
-}
-body.light .bookmark-picker-title{color:#444}
-
-
-/* === v2.17 Single-border bookmark refinement === */
-.bookmark-main-frame{
-  border:1px solid rgba(214,181,101,.55);
-  border-radius:18px;
-  overflow:hidden;
-  background:#111;
-  box-shadow:0 10px 24px rgba(0,0,0,.22);
-}
 body.light .bookmark-main-frame{
   border-color:rgba(160,120,40,.45);
 }
-
-.panel-bookmark{
-  overflow:visible !important;
-}
-.panel-bookmark.saved{
-  top:0 !important;
-  left:14px !important;
-  width:74px !important;
-  height:222px !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:0 !important;
-  background:linear-gradient(180deg,#3d2a12 0%, #b98b37 28%, #f6e5ab 50%, #b98b37 72%, #3d2a12 100%) 36px 0 / 2px 94px no-repeat !important;
-  box-shadow:none !important;
-  backdrop-filter:none !important;
-  -webkit-backdrop-filter:none !important;
-}
-.panel-bookmark.saved::before{
-  content:"" !important;
-  position:absolute;
-  top:94px;
-  left:0;
-  width:74px;
-  height:116px;
-  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
-  border:none !important;
-  border-radius:0 !important;
-  background:transparent !important;
-  box-shadow:0 10px 18px rgba(0,0,0,.22);
-  outline:none !important;
-}
-.panel-bookmark.saved::after{
-  content:"" !important;
-  position:absolute;
-  top:94px;
-  left:0;
-  width:74px;
-  height:116px;
-  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
-  border:1px solid rgba(194,148,60,.95);
-  box-sizing:border-box;
-  pointer-events:none;
-}
-.panel-bookmark.saved img,
-.panel-bookmark img.panel-bookmark-art{
-  display:block !important;
-  position:absolute;
-  top:95px;
-  left:1px;
-  width:72px;
-  height:114px;
-  object-fit:cover;
-  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
-  border:0 !important;
-  outline:0 !important;
-  background:#111;
-  box-shadow:none !important;
-}
-.panel-bookmark:not(.saved) img{display:none !important;}
-.panel-bookmark.saved:active img{transform:none;}
-body.light .panel-bookmark.saved::after{
-  border-color:rgba(168,122,33,.95);
+body.light .bookmark-picker-title{
+  color:#444;
 }
 
-
-/* === BOOKMARK MENU FIX v2.22 ===
-   1) Remove the large circular decoration that can cover the selected artwork.
-   2) Make the left drawer itself scroll vertically and prevent scroll chaining to the comic.
-*/
+/* Drawer scrolling: scroll the menu itself, never the comic behind it. */
 #drawer{
   height:100dvh;
   max-height:100dvh;
@@ -474,60 +354,4 @@ html:has(#drawer.open),
 body:has(#drawer.open){
   overflow:hidden;
   overscroll-behavior:none;
-}
-
-/* Saved bookmark: only one thin hanging line + one artwork border. */
-.panel-bookmark.saved{
-  top:0 !important;
-  left:14px !important;
-  width:76px !important;
-  height:220px !important;
-  padding:0 !important;
-  border:0 !important;
-  border-radius:0 !important;
-  background:linear-gradient(180deg,#6b4812 0%,#d8b15a 45%,#6b4812 100%) 37px 0 / 2px 94px no-repeat !important;
-  box-shadow:none !important;
-  backdrop-filter:none !important;
-  -webkit-backdrop-filter:none !important;
-  overflow:visible !important;
-}
-/* Explicitly remove all old circle/medallion/body pseudo-shapes. */
-.panel-bookmark.saved::before{
-  content:none !important;
-  display:none !important;
-  background:none !important;
-  border:0 !important;
-  box-shadow:none !important;
-}
-/* The ONLY border: one thin outline around the artwork bookmark. */
-.panel-bookmark.saved::after{
-  content:"" !important;
-  display:block !important;
-  position:absolute !important;
-  top:94px !important;
-  left:0 !important;
-  width:76px !important;
-  height:116px !important;
-  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%) !important;
-  background:transparent !important;
-  border:1px solid #c79b45 !important;
-  border-radius:0 !important;
-  box-shadow:none !important;
-  box-sizing:border-box !important;
-  pointer-events:none !important;
-}
-.panel-bookmark.saved img.panel-bookmark-art{
-  display:block !important;
-  position:absolute !important;
-  top:95px !important;
-  left:1px !important;
-  width:74px !important;
-  height:114px !important;
-  object-fit:cover !important;
-  object-position:center !important;
-  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%) !important;
-  border:0 !important;
-  outline:0 !important;
-  box-shadow:none !important;
-  background:transparent !important;
 }
