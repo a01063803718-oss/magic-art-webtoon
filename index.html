@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111111">
 <title>MAGIC ART</title>
-<link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -18,7 +17,7 @@
   <button id="themeBtn" aria-label="화면 모드">◐</button>
 </header>
 
-<aside id="drawer">
+<aside id="drawer" aria-label="메뉴">
   <div class="drawer-title">MAGIC ART</div>
 
   <button id="continueBtn" class="drawer-action" type="button">
@@ -29,7 +28,7 @@
   <div class="drawer-action bookmark-art-panel">
     <span class="drawer-action-title">내 책갈피</span>
 
-    <button id="bookmarkJumpBtn" class="bookmark-main-card" type="button">
+    <button id="bookmarkJumpBtn" class="bookmark-main-card" type="button" disabled>
       <span class="bookmark-main-frame">
         <img id="bookmarkArtImage" src="bookmark-art-01.jpg" alt="선택한 책갈피 작품">
         <span id="bookmarkArtScene">아직 저장된 책갈피가 없습니다</span>
@@ -41,9 +40,9 @@
     <span id="bookmarkMeta" class="drawer-action-meta">작품을 탭하면 이 그림으로 책갈피가 고정됩니다.</span>
   </div>
 
-  <a href="#cover">표지</a>
-  <a href="#story">EP. 01 마법의 세계</a>
-  <a href="#credits">크레딧</a>
+  <a href="#cover" class="drawer-link">표지</a>
+  <a href="#story" class="drawer-link">EP. 01 마법의 세계</a>
+  <a href="#credits" class="drawer-link">크레딧</a>
 </aside>
 <div id="backdrop"></div>
 
@@ -58,7 +57,8 @@
     <div class="credits-title">CREDITS</div>
     <p><b>글</b> 이헌</p>
     <p><b>그림</b> 루이(AI)</p>
-    <p><b>작품</b> 마지윤 · 박시연 · 주은우 · 이헌</p><p class="character-map"><b>등장인물</b> 지윤(에블린) · 시연(미아) · 은우(루크) · 헌(헌)</p>
+    <p><b>작품</b> 마지윤 · 박시연 · 주은우 · 이헌</p>
+    <p class="character-map"><b>등장인물</b> 지윤(에블린) · 시연(미아) · 은우(루크) · 헌(헌)</p>
   </section>
 </main>
 

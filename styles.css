@@ -4,11 +4,14 @@
   --muted:#8a8a8a;
   --line:#252525;
   --panel:#111;
+  --panel-2:#171717;
   --max:760px;
+  --gold:#d6b565;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif}
+body.drawer-open{overflow:hidden;overscroll-behavior:none}
 .reader-head{
   position:sticky;top:0;z-index:30;height:64px;
   display:grid;grid-template-columns:48px 1fr 48px;align-items:center;
@@ -29,51 +32,17 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
   border-bottom:1px solid var(--line);
   background:var(--bg);
 }
-.cover-image{
-  display:block;
-  width:100%;
-  height:auto;
-}
-
+.cover-image{display:block;width:100%;height:auto}
+.story{background:var(--bg)}
 .panel{
-  min-height:100svh;
-  display:flex;flex-direction:column;justify-content:flex-start;
-  border-bottom:1px solid var(--line);
-}
-.panel-image{
-  width:100%;min-height:78svh;
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  padding:24px;
-  background:
-    linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01)),
-    repeating-linear-gradient(135deg,#171717 0,#171717 24px,#121212 24px,#121212 48px);
   position:relative;
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  border-bottom:1px solid var(--line);
+  scroll-margin-top:72px;
 }
-.panel-label{color:#777;font-size:16px;line-height:1.55;max-width:75%}
-.panel-text{font-size:20px;line-height:1.75;padding:30px 24px 44px;background:var(--panel);border-top:1px solid var(--line);}
-.panel-text p{margin:0}
-.credits{min-height:70svh;padding:64px 28px 100px;border-top:1px solid var(--line)}
-.credits-title{font-size:12px;letter-spacing:.3em;color:var(--muted);margin-bottom:28px}
-.credits p{font-size:18px;line-height:1.9;margin:4px 0}
-#drawer{
-  position:fixed;left:0;top:0;bottom:0;width:min(82vw,340px);z-index:50;
-  background:#151515;padding:24px;transform:translateX(-102%);transition:.22s
-}
-#drawer.open{transform:translateX(0)}
-.drawer-title{font-weight:800;letter-spacing:.18em;margin:10px 0 24px}
-#drawer a{display:block;color:#fff;text-decoration:none;padding:14px 0;border-bottom:1px solid #272727}
-#backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;display:none}
-#backdrop.show{display:block}
-body.light{--bg:#f7f7f7;--text:#111;--muted:#6a6a6a;--line:#ddd;--panel:#fff}
-body.light .reader-head{background:rgba(247,247,247,.94)}
-body.light .panel-image{background:repeating-linear-gradient(135deg,#f1f1f1 0,#f1f1f1 24px,#e9e9e9 24px,#e9e9e9 48px)}
-body.light #drawer{background:#fff}
-body.light #drawer a{color:#111;border-color:#ddd}
-@media(min-width:900px){
-  .panel-text{font-size:20px;line-height:1.75;padding:30px 24px 44px;background:var(--panel);border-top:1px solid var(--line);}
-}
-
-
 .panel-image{
   width:100%;
   min-height:auto;
@@ -83,275 +52,121 @@ body.light #drawer a{color:#111;border-color:#ddd}
   border-bottom:1px solid var(--line);
   position:relative;
 }
-.panel-real-image{display:block;width:100%;height:auto;}
-.panel-label{
-  color:#777;
-  font-size:16px;
-  line-height:1.55;
-  max-width:75%;
-  padding:24px;
+.panel-real-image{display:block;width:100%;height:auto}
+.panel-text{
+  background:var(--panel);
+  padding:20px 22px 28px;
+  border-top:1px solid var(--line);
 }
-
-/* === Bookmark / Continue Reading : CLEAN v2.23 === */
-.panel{
-  position:relative;
-  scroll-margin-top:72px;
-}
-
-/* Small unsaved bookmark button */
-.panel-bookmark{
-  position:absolute;
-  z-index:14;
-  top:12px;
-  left:12px;
-  width:38px;
-  height:38px;
-  padding:0;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.34);
-  background:rgba(12,12,12,.58);
-  color:#fff;
-  box-shadow:0 3px 12px rgba(0,0,0,.22);
-  display:grid;
-  place-items:center;
-  cursor:pointer;
-  overflow:visible;
-}
-.panel-bookmark::before{
-  content:"＋";
-  display:grid;
-  place-items:center;
-  position:absolute;
-  inset:0;
-  font-size:22px;
-  font-weight:700;
-  line-height:1;
-  color:#fff;
-}
-.panel-bookmark img{
-  display:none;
-}
-.panel-bookmark:not(.saved):active{
-  transform:scale(.94);
-}
-
-/* Saved bookmark: line ends ABOVE the artwork. */
-.panel-bookmark.saved{
-  top:0;
-  left:14px;
-  width:76px;
-  height:212px;
-  border:0;
-  border-radius:0;
-  background:transparent;
-  box-shadow:none;
-  overflow:visible;
-}
-.panel-bookmark.saved::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:37px;
-  width:2px;
-  height:94px;
-  background:linear-gradient(180deg,#6b4812 0%,#d8b15a 45%,#6b4812 100%);
-  border-radius:2px;
-  pointer-events:none;
-}
-.panel-bookmark.saved::after{
-  content:"";
-  position:absolute;
-  top:94px;
-  left:0;
-  width:76px;
-  height:116px;
-  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
-  border:1px solid #c79b45;
-  box-sizing:border-box;
-  pointer-events:none;
-  z-index:2;
-}
-.panel-bookmark.saved img.panel-bookmark-art{
-  display:block;
-  position:absolute;
-  top:95px;
-  left:1px;
-  width:74px;
-  height:114px;
-  object-fit:cover;
-  object-position:center;
-  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
-  border:0;
-  outline:0;
-  box-shadow:none;
-  background:transparent;
-  z-index:1;
-}
-.panel-bookmark.saved:active img{
-  transform:none;
-}
-
-body.light .panel-bookmark:not(.saved){
-  background:rgba(255,255,255,.82);
-  color:#111;
-  border-color:rgba(0,0,0,.2);
-}
-body.light .panel-bookmark:not(.saved)::before{
-  color:#111;
-}
-body.light .panel-bookmark.saved::after{
-  border-color:rgba(168,122,33,.95);
-}
-
-/* Drawer actions */
-.drawer-action{
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:3px;
-  border:0;
-  border-bottom:1px solid #272727;
-  background:transparent;
-  color:#fff;
-  padding:14px 0;
-  text-align:left;
-  cursor:pointer;
-}
-.drawer-action:disabled{
-  opacity:.42;
-  cursor:default;
-}
-.drawer-action-title{
-  font-size:15px;
-  font-weight:700;
-}
-.drawer-action-meta{
+.scene-index{
   font-size:12px;
-  color:#aaa;
+  font-weight:800;
+  letter-spacing:.22em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:8px;
 }
-body.light .drawer-action{
-  color:#111;
-  border-color:#ddd;
+.scene-title{
+  font-size:18px;
+  font-weight:800;
+  line-height:1.45;
+  margin-bottom:10px;
 }
-body.light .drawer-action-meta{
-  color:#666;
+.scene-caption{
+  margin:0;
+  font-size:18px;
+  line-height:1.8;
+  white-space:pre-line;
 }
-
-/* Bookmark artwork selection */
+.credits{min-height:70svh;padding:64px 28px 100px;border-top:1px solid var(--line)}
+.credits-title{font-size:12px;letter-spacing:.3em;color:var(--muted);margin-bottom:28px}
+.credits p{font-size:18px;line-height:1.9;margin:4px 0}
+#drawer{
+  position:fixed;left:0;top:0;bottom:0;width:min(84vw,360px);z-index:50;
+  background:#151515;padding:24px;transform:translateX(-102%);transition:.22s;
+  height:100dvh;max-height:100dvh;overflow-y:auto;overflow-x:hidden;
+  overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;
+}
+#drawer.open{transform:translateX(0)}
+.drawer-title{font-weight:800;letter-spacing:.18em;margin:10px 0 24px}
+.drawer-link{display:block;color:#fff;text-decoration:none;padding:14px 0;border-bottom:1px solid #272727}
+#backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;display:none}
+#backdrop.show{display:block}
+body.light{--bg:#f7f7f7;--text:#111;--muted:#6a6a6a;--line:#ddd;--panel:#fff;--panel-2:#f3f3f3;--gold:#a67a21}
+body.light .reader-head{background:rgba(247,247,247,.94)}
+body.light #drawer{background:#fff}
+body.light .drawer-link{color:#111;border-color:#ddd}
+.drawer-action{
+  width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:3px;
+  border:0;border-bottom:1px solid #272727;background:transparent;color:#fff;
+  padding:14px 0;text-align:left;cursor:pointer
+}
+.drawer-action:disabled{opacity:.42;cursor:default}
+.drawer-action-title{font-size:15px;font-weight:700}
+.drawer-action-meta{font-size:12px;color:#aaa}
+body.light .drawer-action{color:#111;border-color:#ddd}
+body.light .drawer-action-meta{color:#666}
 .bookmark-art-panel{gap:10px}
-.bookmark-main-card{
-  width:100%;
-  display:block;
-  border:0;
-  padding:0;
-  background:transparent;
-  cursor:pointer;
-}
+.bookmark-main-card{width:100%;display:block;border:0;padding:0;background:transparent;cursor:pointer}
 .bookmark-main-card:disabled{cursor:default}
 .bookmark-main-frame{
-  position:relative;
-  display:block;
-  width:100%;
-  aspect-ratio:4/5;
-  overflow:hidden;
-  border-radius:18px;
-  background:#111;
-  border:1px solid rgba(214,181,101,.55);
-  box-shadow:0 10px 24px rgba(0,0,0,.22);
+  position:relative;display:block;width:100%;aspect-ratio:4/5;overflow:hidden;
+  border-radius:18px;background:#111;border:1px solid rgba(214,181,101,.55);
+  box-shadow:0 10px 24px rgba(0,0,0,.22)
 }
-.bookmark-main-frame img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+.bookmark-main-frame img{display:block;width:100%;height:100%;object-fit:cover}
 #bookmarkArtScene{
-  position:absolute;
-  left:10px;
-  right:10px;
-  bottom:10px;
-  padding:9px 10px;
-  border-radius:10px;
-  background:rgba(0,0,0,.68);
-  color:#fff;
-  font-size:12px;
-  font-weight:800;
-  line-height:1.35;
+  position:absolute;left:10px;right:10px;bottom:10px;padding:9px 10px;border-radius:10px;
+  background:rgba(0,0,0,.68);color:#fff;font-size:12px;font-weight:800;line-height:1.35
 }
-.bookmark-picker-title{
-  display:block;
-  font-size:12px;
-  font-weight:800;
-  color:#ddd;
-}
-.bookmark-art-picker{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:7px;
-  width:100%;
-}
+.bookmark-picker-title{display:block;font-size:12px;font-weight:800;color:#ddd}
+.bookmark-art-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;width:100%}
 .bookmark-art-choice{
-  position:relative;
-  padding:0;
-  border:2px solid transparent;
-  border-radius:9px;
-  overflow:hidden;
-  background:transparent;
-  aspect-ratio:4/5;
-  cursor:pointer;
+  position:relative;padding:0;border:2px solid transparent;border-radius:9px;overflow:hidden;
+  background:transparent;aspect-ratio:4/5;cursor:pointer
 }
-.bookmark-art-choice img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.bookmark-art-choice.selected{
-  border-color:#f0d36b;
-  box-shadow:0 0 0 2px rgba(240,211,107,.18);
-}
+.bookmark-art-choice img{display:block;width:100%;height:100%;object-fit:cover}
+.bookmark-art-choice.selected{border-color:#f0d36b;box-shadow:0 0 0 2px rgba(240,211,107,.18)}
 .bookmark-art-choice.selected::after{
-  content:"✓";
-  position:absolute;
-  top:5px;
-  right:5px;
-  width:22px;
-  height:22px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:#f0d36b;
-  color:#111;
-  font-size:13px;
-  font-weight:900;
+  content:"✓";position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;
+  display:grid;place-items:center;background:#f0d36b;color:#111;font-size:13px;font-weight:900
 }
-body.light .bookmark-main-frame{
-  border-color:rgba(160,120,40,.45);
-}
-body.light .bookmark-picker-title{
-  color:#444;
-}
+body.light .bookmark-main-frame{border-color:rgba(160,120,40,.45)}
+body.light .bookmark-picker-title{color:#444}
 
-/* Drawer scrolling: scroll the menu itself, never the comic behind it. */
-#drawer{
-  height:100dvh;
-  max-height:100dvh;
-  overflow-y:auto;
-  overflow-x:hidden;
-  overscroll-behavior-y:contain;
-  -webkit-overflow-scrolling:touch;
-  touch-action:pan-y;
-  scrollbar-gutter:stable;
+/* scene bookmark button */
+.panel-bookmark{
+  position:absolute;z-index:14;top:12px;left:12px;width:38px;height:38px;padding:0;border-radius:50%;
+  border:1px solid rgba(255,255,255,.34);background:rgba(12,12,12,.58);color:#fff;
+  box-shadow:0 3px 12px rgba(0,0,0,.22);display:grid;place-items:center;cursor:pointer;overflow:visible
 }
-#drawer.open{
-  overflow-y:auto;
+.panel-bookmark::before{
+  content:"＋";display:grid;place-items:center;position:absolute;inset:0;font-size:22px;font-weight:700;line-height:1;color:#fff
 }
-#backdrop.show{
-  touch-action:none;
+.panel-bookmark img{display:none}
+.panel-bookmark:not(.saved):active{transform:scale(.94)}
+/* saved bookmark ribbon; line is offset left so it does not cut through the art */
+.panel-bookmark.saved{
+  top:0;left:8px;width:88px;height:212px;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible
 }
-html:has(#drawer.open),
-body:has(#drawer.open){
-  overflow:hidden;
-  overscroll-behavior:none;
+.panel-bookmark.saved::before{
+  content:"";position:absolute;top:0;left:10px;width:2px;height:94px;
+  background:linear-gradient(180deg,#6b4812 0%,#d8b15a 45%,#6b4812 100%);
+  border-radius:2px;pointer-events:none
+}
+.panel-bookmark.saved::after{
+  content:"";position:absolute;top:94px;left:14px;width:64px;height:116px;
+  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);
+  border:1px solid #c79b45;box-sizing:border-box;pointer-events:none;z-index:2
+}
+.panel-bookmark.saved img.panel-bookmark-art{
+  display:block;position:absolute;top:95px;left:15px;width:62px;height:114px;object-fit:cover;object-position:center;
+  clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%);border:0;outline:0;box-shadow:none;background:transparent;z-index:1
+}
+body.light .panel-bookmark:not(.saved){background:rgba(255,255,255,.82);color:#111;border-color:rgba(0,0,0,.2)}
+body.light .panel-bookmark:not(.saved)::before{color:#111}
+body.light .panel-bookmark.saved::after{border-color:rgba(168,122,33,.95)}
+
+@media(min-width:900px){
+  .panel-text{padding:24px 28px 34px}
 }
